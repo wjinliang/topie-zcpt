@@ -10,30 +10,30 @@ public class UserVO extends User {
     @JsonIgnore
     public static User buildSimpleUser(String employeeNo, String contactPhone, String password, String name, String email) {
         User user = new User();
-        user.setLoginName(employeeNo);
+        user.setLoginname(employeeNo);
         user.setPassword(password);
         user.setEnabled(true);
-        user.setAccountNonExpired(true);
-        user.setAccountNonLocked(true);
-        user.setContactPhone(contactPhone);
+        user.setAccountExpired(true);
+        user.setPasswordExpired(true);
+        user.setBizphoneNo(contactPhone);
         user.setEmail(email);
-        user.setDisplayName(name);
-        user.setCredentialsNonExpired(true);
+        user.setName(name);
+        //user.setCredentialsNonExpired(true);
         return user;
     }
 
     @JsonIgnore
     public static User buildSimpleUser(String loginName,String mobile, String name, String email) {
         User user = new User();
-        user.setLoginName(loginName);
+        user.setLoginname(loginName);
         user.setPassword(mobile);
         user.setEnabled(true);
-        user.setAccountNonExpired(true);
-        user.setAccountNonLocked(true);
-        user.setContactPhone(mobile);
+        user.setAccountExpired(true);
+        user.setPasswordExpired(true);
+        user.setBizphoneNo(mobile);
         user.setEmail(email);
-        user.setDisplayName(name);
-        user.setCredentialsNonExpired(true);
+        user.setName(name);
+        //user.setCredentialsNonExpired(true);
         return user;
     }
 

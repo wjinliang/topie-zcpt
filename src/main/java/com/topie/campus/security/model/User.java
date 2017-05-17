@@ -1,381 +1,728 @@
 package com.topie.campus.security.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.topie.campus.common.Sortable;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.List;
+import com.topie.campus.common.Sortable;
 
-@Table(name = "sys_user")
+@Table(name = "t_user_account")
 public class User extends Sortable {
 
     private static final long serialVersionUID = 4973095724072990604L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "CODE")
+    private String code;
 
-    /**
-     * 登录名
-     */
-    @Column(name = "login_name")
-    @NotEmpty
-    @Size(min = 4, max = 20)
-    private String loginName;
-
-    /**
-     * 密码
-     */
-
-    @NotEmpty
-    @Size(min = 8, max = 64)
-    @JsonIgnore
-    private String password;
-
-    /**
-     * 显示名称
-     */
-    @Column(name = "display_name")
-    @NotEmpty
-    @Size(max = 20)
-    private String displayName;
-
-    /**
-     * 状态，0=冻结，1=正常
-     */
-    private Boolean enabled;
-
-    /**
-     * 未锁定状态，0=正常，1=锁定
-     */
-    @Column(name = "account_non_locked")
-    private Boolean accountNonLocked;
-
-    /**
-     * 账号过期状态，1=正常，0=过期
-     */
-    @Column(name = "account_non_expired")
-    private Boolean accountNonExpired;
-
-    /**
-     * 密码失效状态：1：未失效 0：已失效
-     */
-    @Column(name = "credentials_non_expired")
-    private Boolean credentialsNonExpired;
-
-    /**
-     * 登陆IP
-     */
-    @Column(name = "last_login_ip")
-    private String lastLoginIp;
-
-    /**
-     * 最后登陆时间
-     */
-    @Column(name = "last_login_time")
-    private Date lastLoginTime;
-
-    /**
-     * 邮箱
-     */
+    @Column(name = "EMAIL")
     @Email
     private String email;
 
-    /**
-     * 电话
-     */
-    @Column(name = "contact_phone")
-    private String contactPhone;
+    @Column(name = "ENABLED")
+    private Boolean enabled;
 
-    /**
-     * 插入时间
-     */
-    @Column(name = "insert_time")
-    private Date insertTime;
+    @Column(name = "HEADPIC")
+    private String headpic;
 
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "PASSWORD")
+    @NotEmpty
+    private String password;
+
+    @Column(name = "SEQ")
+    private Long seq;
+
+    @Column(name = "headphoto_id")
+    private String headphotoId;
+
+    @Column(name = "org_id")
+    private Long orgId;
+
+    @Column(name = "LOGINNAME")
+    private String loginname;
+
+    @Column(name = "MOBILEPHONE")
+    private String mobilephone;
+
+    @Column(name = "USERTYPE")
+    private String usertype;
+
+    @Column(name = "LASTLOGINTIME")
+    private String lastlogintime;
+
+    @Column(name = "LOGINCOUNT")
+    private Integer logincount;
+
+    @Column(name = "MOBILE")
+    private String mobile;
+
+    @Column(name = "REMOTEIPADDR")
+    private String remoteipaddr;
+
+    @Column(name = "ACCOUNT_EXPIRED")
+    private Boolean accountExpired;
+
+    @Column(name = "LOCKED")
+    private Boolean locked;
+
+    @Column(name = "PASSWORD_EXPIRED")
+    private Boolean passwordExpired;
+
+    @Column(name = "SPECIALACTION")
+    private String specialaction;
+
+    @Column(name = "ugroup_id")
+    private String ugroupId;
+
+    @Column(name = "SYNPASSWORD")
+    private String synpassword;
+
+    @Column(name = "DTYPE")
+    private String dtype;
+
+    @Column(name = "merge_uuid")
+    private String mergeUuid;
+
+    @Column(name = "origin_id")
+    private String originId;
+
+    @Column(name = "school_age")
+    private String schoolAge;
+
+    private String title;
+
+    private String speciality;
+
+    @Column(name = "create_date")
+    private String createDate;
+
+    @Column(name = "create_user")
+    private String createUser;
+
+    @Column(name = "bizphone_no")
+    private String bizphoneNo;
+
+    @Column(name = "fax_no")
+    private String faxNo;
+
+    private String address;
+
+    private String duty;
+
+    private String birthday;
+
+    private String gender;
+
+    @Column(name = "user_type")
+    private String userType;
+
+    @Column(name = "system_id")
+    private String systemId;
+
+    @Column(name = "old_loginname")
+    private String oldLoginname;
+
+    @Column(name = "is_delete")
+    private Boolean isDelete;
+    
     /**
      * 更新时间
      */
-    @Column(name = "update_time")
-    private Date updateTime;
+//    @Column(name = "update_time")
+//    private Date updateTime;
 
     /**
      * 上次密码重置时间
      */
-    @Column(name = "last_password_reset")
-    private Date lastPasswordReset;
+//    @Column(name = "last_password_reset")
+//    private Date lastPasswordReset;
+    /**
+     * 登陆IP
+     */
+//    @Column(name = "last_login_ip")
+//    private String lastLoginIp;
 
+    
     /**
      * 用户roles_id 集合
      */
     @Transient
-    private List<Integer> roles;
+    private List<String> roles;
+    
+    public List<String> getRoles() {
+		return roles;
+	}
 
-    /**
-     * @return id
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
+	/**
+     * @return CODE
      */
-    public Integer getId() {
-        return id;
+    public String getCode() {
+        return code;
     }
 
     /**
-     * @param id
+     * @param code
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     /**
-     * 获取登录名
-     *
-     * @return login_name - 登录名
-     */
-    public String getLoginName() {
-        return loginName;
-    }
-
-    /**
-     * 设置登录名
-     *
-     * @param loginName 登录名
-     */
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
-    }
-
-    /**
-     * 获取密码
-     *
-     * @return password - 密码
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * 设置密码
-     *
-     * @param password 密码
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * 获取显示名称
-     *
-     * @return display_name - 显示名称
-     */
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    /**
-     * 设置显示名称
-     *
-     * @param displayName 显示名称
-     */
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    /**
-     * 获取状态，0=冻结，1=正常
-     *
-     * @return enabled - 状态，0=冻结，1=正常
-     */
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    /**
-     * 设置状态，0=冻结，1=正常
-     *
-     * @param enabled 状态，0=冻结，1=正常
-     */
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    /**
-     * 获取未锁定状态，0=正常，1=锁定
-     *
-     * @return account_non_locked - 未锁定状态，0=正常，1=锁定
-     */
-    public Boolean getAccountNonLocked() {
-        return accountNonLocked;
-    }
-
-    /**
-     * 设置未锁定状态，0=正常，1=锁定
-     *
-     * @param accountNonLocked 未锁定状态，0=正常，1=锁定
-     */
-    public void setAccountNonLocked(Boolean accountNonLocked) {
-        this.accountNonLocked = accountNonLocked;
-    }
-
-    /**
-     * 获取账号过期状态，1=正常，0=过期
-     *
-     * @return account_non_expired - 账号过期状态，1=正常，0=过期
-     */
-    public Boolean getAccountNonExpired() {
-        return accountNonExpired;
-    }
-
-    /**
-     * 设置账号过期状态，1=正常，0=过期
-     *
-     * @param accountNonExpired 账号过期状态，1=正常，0=过期
-     */
-    public void setAccountNonExpired(Boolean accountNonExpired) {
-        this.accountNonExpired = accountNonExpired;
-    }
-
-    /**
-     * 获取密码失效状态：1：未失效 0：已失效
-     *
-     * @return credentials_non_expired - 密码失效状态：1：未失效 0：已失效
-     */
-    public Boolean getCredentialsNonExpired() {
-        return credentialsNonExpired;
-    }
-
-    /**
-     * 设置密码失效状态：1：未失效 0：已失效
-     *
-     * @param credentialsNonExpired 密码失效状态：1：未失效 0：已失效
-     */
-    public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
-        this.credentialsNonExpired = credentialsNonExpired;
-    }
-
-    /**
-     * 获取登陆IP
-     *
-     * @return last_login_ip - 登陆IP
-     */
-    public String getLastLoginIp() {
-        return lastLoginIp;
-    }
-
-    /**
-     * 设置登陆IP
-     *
-     * @param lastLoginIp 登陆IP
-     */
-    public void setLastLoginIp(String lastLoginIp) {
-        this.lastLoginIp = lastLoginIp;
-    }
-
-    /**
-     * 获取最后登陆时间
-     *
-     * @return last_login_time - 最后登陆时间
-     */
-    public Date getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    /**
-     * 设置最后登陆时间
-     *
-     * @param lastLoginTime 最后登陆时间
-     */
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
-
-    /**
-     * 获取邮箱
-     *
-     * @return email - 邮箱
+     * @return EMAIL
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * 设置邮箱
-     *
-     * @param email 邮箱
+     * @param email
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
     /**
-     * 获取电话
-     *
-     * @return contact_phone - 电话
+     * @return ENABLED
      */
-    public String getContactPhone() {
-        return contactPhone;
+    public Boolean getEnabled() {
+        return enabled;
     }
 
     /**
-     * 设置电话
-     *
-     * @param contactPhone 电话
+     * @param enabled
      */
-    public void setContactPhone(String contactPhone) {
-        this.contactPhone = contactPhone;
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     /**
-     * 获取插入时间
-     *
-     * @return insert_time - 插入时间
+     * @return HEADPIC
      */
-    public Date getInsertTime() {
-        return insertTime;
+    public String getHeadpic() {
+        return headpic;
     }
 
     /**
-     * 设置插入时间
-     *
-     * @param insertTime 插入时间
+     * @param headpic
      */
-    public void setInsertTime(Date insertTime) {
-        this.insertTime = insertTime;
+    public void setHeadpic(String headpic) {
+        this.headpic = headpic;
     }
 
     /**
-     * 获取更新时间
-     *
-     * @return update_time - 更新时间
+     * @return NAME
      */
-    public Date getUpdateTime() {
-        return updateTime;
+    public String getName() {
+        return name;
     }
 
     /**
-     * 设置更新时间
-     *
-     * @param updateTime 更新时间
+     * @param name
      */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getLastPasswordReset() {
-        return lastPasswordReset;
+    /**
+     * @return PASSWORD
+     */
+    public String getPassword() {
+        return password;
     }
 
-    public void setLastPasswordReset(Date lastPasswordReset) {
-        this.lastPasswordReset = lastPasswordReset;
+    /**
+     * @param password
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public List<Integer> getRoles() {
-        return roles;
+    /**
+     * @return SEQ
+     */
+    public Long getSeq() {
+        return seq;
     }
 
-    public void setRoles(List<Integer> roles) {
-        this.roles = roles;
+    /**
+     * @param seq
+     */
+    public void setSeq(Long seq) {
+        this.seq = seq;
+    }
+
+    /**
+     * @return headphoto_id
+     */
+    public String getHeadphotoId() {
+        return headphotoId;
+    }
+
+    /**
+     * @param headphotoId
+     */
+    public void setHeadphotoId(String headphotoId) {
+        this.headphotoId = headphotoId;
+    }
+
+    /**
+     * @return org_id
+     */
+    public Long getOrgId() {
+        return orgId;
+    }
+
+    /**
+     * @param orgId
+     */
+    public void setOrgId(Long orgId) {
+        this.orgId = orgId;
+    }
+
+    /**
+     * @return LOGINNAME
+     */
+    public String getLoginname() {
+        return loginname;
+    }
+
+    /**
+     * @param loginname
+     */
+    public void setLoginname(String loginname) {
+        this.loginname = loginname;
+    }
+
+    /**
+     * @return MOBILEPHONE
+     */
+    public String getMobilephone() {
+        return mobilephone;
+    }
+
+    /**
+     * @param mobilephone
+     */
+    public void setMobilephone(String mobilephone) {
+        this.mobilephone = mobilephone;
+    }
+
+    /**
+     * @return USERTYPE
+     */
+    public String getUsertype() {
+        return usertype;
+    }
+
+    /**
+     * @param usertype
+     */
+    public void setUsertype(String usertype) {
+        this.usertype = usertype;
+    }
+
+    /**
+     * @return LASTLOGINTIME
+     */
+    public String getLastlogintime() {
+        return lastlogintime;
+    }
+
+    /**
+     * @param lastlogintime
+     */
+    public void setLastlogintime(String lastlogintime) {
+        this.lastlogintime = lastlogintime;
+    }
+
+    /**
+     * @return LOGINCOUNT
+     */
+    public Integer getLogincount() {
+        return logincount;
+    }
+
+    /**
+     * @param logincount
+     */
+    public void setLogincount(Integer logincount) {
+        this.logincount = logincount;
+    }
+
+    /**
+     * @return MOBILE
+     */
+    public String getMobile() {
+        return mobile;
+    }
+
+    /**
+     * @param mobile
+     */
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    /**
+     * @return REMOTEIPADDR
+     */
+    public String getRemoteipaddr() {
+        return remoteipaddr;
+    }
+
+    /**
+     * @param remoteipaddr
+     */
+    public void setRemoteipaddr(String remoteipaddr) {
+        this.remoteipaddr = remoteipaddr;
+    }
+
+    /**
+     * @return ACCOUNT_EXPIRED
+     */
+    public Boolean getAccountExpired() {
+        return accountExpired;
+    }
+
+    /**
+     * @param accountExpired
+     */
+    public void setAccountExpired(Boolean accountExpired) {
+        this.accountExpired = accountExpired;
+    }
+
+    /**
+     * @return LOCKED
+     */
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    /**
+     * @param locked
+     */
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
+    }
+
+    /**
+     * @return PASSWORD_EXPIRED
+     */
+    public Boolean getPasswordExpired() {
+        return passwordExpired;
+    }
+
+    /**
+     * @param passwordExpired
+     */
+    public void setPasswordExpired(Boolean passwordExpired) {
+        this.passwordExpired = passwordExpired;
+    }
+
+    /**
+     * @return SPECIALACTION
+     */
+    public String getSpecialaction() {
+        return specialaction;
+    }
+
+    /**
+     * @param specialaction
+     */
+    public void setSpecialaction(String specialaction) {
+        this.specialaction = specialaction;
+    }
+
+    /**
+     * @return ugroup_id
+     */
+    public String getUgroupId() {
+        return ugroupId;
+    }
+
+    /**
+     * @param ugroupId
+     */
+    public void setUgroupId(String ugroupId) {
+        this.ugroupId = ugroupId;
+    }
+
+    /**
+     * @return SYNPASSWORD
+     */
+    public String getSynpassword() {
+        return synpassword;
+    }
+
+    /**
+     * @param synpassword
+     */
+    public void setSynpassword(String synpassword) {
+        this.synpassword = synpassword;
+    }
+
+    /**
+     * @return DTYPE
+     */
+    public String getDtype() {
+        return dtype;
+    }
+
+    /**
+     * @param dtype
+     */
+    public void setDtype(String dtype) {
+        this.dtype = dtype;
+    }
+
+    /**
+     * @return merge_uuid
+     */
+    public String getMergeUuid() {
+        return mergeUuid;
+    }
+
+    /**
+     * @param mergeUuid
+     */
+    public void setMergeUuid(String mergeUuid) {
+        this.mergeUuid = mergeUuid;
+    }
+
+    /**
+     * @return origin_id
+     */
+    public String getOriginId() {
+        return originId;
+    }
+
+    /**
+     * @param originId
+     */
+    public void setOriginId(String originId) {
+        this.originId = originId;
+    }
+
+    /**
+     * @return school_age
+     */
+    public String getSchoolAge() {
+        return schoolAge;
+    }
+
+    /**
+     * @param schoolAge
+     */
+    public void setSchoolAge(String schoolAge) {
+        this.schoolAge = schoolAge;
+    }
+
+    /**
+     * @return title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * @return speciality
+     */
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    /**
+     * @param speciality
+     */
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
+    /**
+     * @return create_date
+     */
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    /**
+     * @param createDate
+     */
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    /**
+     * @return create_user
+     */
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    /**
+     * @param createUser
+     */
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    /**
+     * @return bizphone_no
+     */
+    public String getBizphoneNo() {
+        return bizphoneNo;
+    }
+
+    /**
+     * @param bizphoneNo
+     */
+    public void setBizphoneNo(String bizphoneNo) {
+        this.bizphoneNo = bizphoneNo;
+    }
+
+    /**
+     * @return fax_no
+     */
+    public String getFaxNo() {
+        return faxNo;
+    }
+
+    /**
+     * @param faxNo
+     */
+    public void setFaxNo(String faxNo) {
+        this.faxNo = faxNo;
+    }
+
+    /**
+     * @return address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    /**
+     * @return duty
+     */
+    public String getDuty() {
+        return duty;
+    }
+
+    /**
+     * @param duty
+     */
+    public void setDuty(String duty) {
+        this.duty = duty;
+    }
+
+    /**
+     * @return birthday
+     */
+    public String getBirthday() {
+        return birthday;
+    }
+
+    /**
+     * @param birthday
+     */
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    /**
+     * @return gender
+     */
+    public String getGender() {
+        return gender;
+    }
+
+    /**
+     * @param gender
+     */
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    /**
+     * @return user_type
+     */
+    public String getUserType() {
+        return userType;
+    }
+
+    /**
+     * @param userType
+     */
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    /**
+     * @return system_id
+     */
+    public String getSystemId() {
+        return systemId;
+    }
+
+    /**
+     * @param systemId
+     */
+    public void setSystemId(String systemId) {
+        this.systemId = systemId;
+    }
+
+    /**
+     * @return old_loginname
+     */
+    public String getOldLoginname() {
+        return oldLoginname;
+    }
+
+    /**
+     * @param oldLoginname
+     */
+    public void setOldLoginname(String oldLoginname) {
+        this.oldLoginname = oldLoginname;
+    }
+
+    /**
+     * @return is_delete
+     */
+    public Boolean getIsDelete() {
+        return isDelete;
+    }
+
+    /**
+     * @param isDelete
+     */
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
     }
 }

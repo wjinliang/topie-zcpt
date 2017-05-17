@@ -1,11 +1,11 @@
 package com.topie.campus.security.service;
 
+import java.util.List;
+
 import com.github.pagehelper.PageInfo;
 import com.topie.campus.basedao.service.IService;
 import com.topie.campus.common.TreeNode;
 import com.topie.campus.security.model.User;
-
-import java.util.List;
 
 /**
  * 工程：os-app 创建人 : ChenGJ 创建时间： 2015/9/2 说明：
@@ -18,17 +18,17 @@ public interface UserService extends IService<User> {
 
     int updateUserWithOnlyUserCache(User user);
 
-    User findUserById(Integer id);
+    User findUserById(String id);
 
     User findUserByLoginName(String loginName);
 
-    int deleteUser(Integer id);
+    int deleteUser(String id);
 
-    int insertUserRole(Integer userId, Integer roleId);
+    int insertUserRole(String userId, String roleId);
 
-    int deleteUserAllRoles(Integer userId);
+    int deleteUserAllRoles(String userId);
 
-    List<Integer> findUserRoleByUserId(int userId);
+    List<String> findUserRoleByUserId(String userId);
 
     PageInfo<User> findUserList(Integer pageNum, Integer pageSize, User user);
 
@@ -40,11 +40,11 @@ public interface UserService extends IService<User> {
 
     int countByLoginName(String loginName);
 
-    int updateLockStatusByUserId(int userId, Boolean accountNonLocked);
+    int updateLockStatusByUserId(String userId, Boolean accountNonLocked);
 
-    String findLoginNameByUserId(Integer userId);
+    String findLoginNameByUserId(String userId);
 
-    int deleteUserRole(Integer userId, Integer roleId);
+    int deleteUserRole(String userId, String roleId);
 
-    PageInfo<User> findUserListByRoleId(int pageNum, int pageSize, User user, Integer roleId);
+    PageInfo<User> findUserListByRoleId(int pageNum, int pageSize, User user, String roleId);
 }

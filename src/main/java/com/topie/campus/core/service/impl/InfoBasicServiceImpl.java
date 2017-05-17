@@ -1,20 +1,11 @@
 package com.topie.campus.core.service.impl;
 
-import com.topie.campus.common.SimplePageInfo;
-import com.topie.campus.common.TreeNode;
-import com.topie.campus.core.dao.*;
-import com.topie.campus.core.dto.*;
-import com.topie.campus.core.model.*;
-import com.topie.campus.core.service.*;
-import com.topie.campus.security.SecurityConstant;
-import com.topie.campus.security.exception.AuBzConstant;
-import com.topie.campus.security.exception.AuthBusinessException;
-import com.topie.campus.security.model.User;
-import com.topie.campus.security.service.UserService;
-import com.topie.campus.security.utils.SecurityUtil;
-import com.topie.campus.security.vo.UserVO;
-import com.topie.campus.tools.excel.ExcelLogs;
-import com.topie.campus.tools.excel.ExcelUtil;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -31,11 +22,52 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.common.TreeNode;
+import com.topie.campus.core.dao.CollegeMapper;
+import com.topie.campus.core.dao.FacultyMapper;
+import com.topie.campus.core.dao.MajorMapper;
+import com.topie.campus.core.dao.MsgMapper;
+import com.topie.campus.core.dao.StudentMapper;
+import com.topie.campus.core.dao.TeacherMapper;
+import com.topie.campus.core.dao.TeacherStudentMapper;
+import com.topie.campus.core.dao.TeacherTypeMapper;
+import com.topie.campus.core.dao.UserFacultyMapper;
+import com.topie.campus.core.dto.StuCetExcelDto;
+import com.topie.campus.core.dto.StuScoreExcelDto;
+import com.topie.campus.core.dto.StuSeleExcelDto;
+import com.topie.campus.core.dto.StuTimeTableExcelDto;
+import com.topie.campus.core.dto.StudentExcelDto;
+import com.topie.campus.core.dto.StudentSimpleDto;
+import com.topie.campus.core.dto.TeacherExcelDto;
+import com.topie.campus.core.dto.TeacherSimpleDto;
+import com.topie.campus.core.dto.TeacherStudentRelateExcelDto;
+import com.topie.campus.core.dto.TreeDto;
+import com.topie.campus.core.model.College;
+import com.topie.campus.core.model.Faculty;
+import com.topie.campus.core.model.Msg;
+import com.topie.campus.core.model.StuCet;
+import com.topie.campus.core.model.StuScore;
+import com.topie.campus.core.model.StuSeleCourse;
+import com.topie.campus.core.model.StuTimeTable;
+import com.topie.campus.core.model.Student;
+import com.topie.campus.core.model.Teacher;
+import com.topie.campus.core.model.TeacherStudent;
+import com.topie.campus.core.model.UserFaculty;
+import com.topie.campus.core.service.IInfoBasicService;
+import com.topie.campus.core.service.IStuCetService;
+import com.topie.campus.core.service.IStuSeleCourseService;
+import com.topie.campus.core.service.IStuTimeTableService;
+import com.topie.campus.core.service.IStudentScoreService;
+import com.topie.campus.core.service.IStudentService;
+import com.topie.campus.core.service.ITeacherService;
+import com.topie.campus.security.exception.AuBzConstant;
+import com.topie.campus.security.exception.AuthBusinessException;
+import com.topie.campus.security.model.User;
+import com.topie.campus.security.service.UserService;
+import com.topie.campus.security.vo.UserVO;
+import com.topie.campus.tools.excel.ExcelLogs;
+import com.topie.campus.tools.excel.ExcelUtil;
 
 /**
  * Created by chenguojun on 8/10/16.
@@ -120,12 +152,12 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
                     .buildSimpleUser(teacherDto.getEmployeeNo(), teacherDto.getContactPhone(), teacherDto.getName(),
                             teacherDto.getEmail());
             if (userService.findExistUser(user) > 0) {
-                throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
+                throw new AuthBusinessException(user.getLoginname() + AuBzConstant.LOGIN_NAME_EXIST);
             }
             userService.insertUser(user);
-            userService.insertUserRole(user.getId(), SecurityConstant.ROLE_TEACHER);
+            //userService.insertUserRole(user.getCode(), SecurityConstant.ROLE_TEACHER);
             Teacher teacher = teacherDto.buildTeacher();
-            teacher.setUserId(user.getId());
+            //teacher.setUserId(user.getCode());
             iTeacherService.insertSelective(teacher);
         }
         for (StudentExcelDto studentDto : studentList) {
@@ -134,12 +166,12 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
                     .buildSimpleUser(studentDto.getStudentNo(), studentDto.getContactPhone(), studentDto.getName(),
                             studentDto.getEmail());
             if (userService.findExistUser(user) > 0) {
-                throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
+                throw new AuthBusinessException(user.getLoginname() + AuBzConstant.LOGIN_NAME_EXIST);
             }
             userService.insertUser(user);
-            userService.insertUserRole(user.getId(), SecurityConstant.ROLE_STUDENT);
+            //userService.insertUserRole(user.getCode(), SecurityConstant.ROLE_STUDENT);
             Student student = studentDto.buildStudent();
-            student.setUserId(user.getId());
+           // student.setUserId(user.getCode());
             iStudentService.insertSelective(student);
         }
     }
@@ -166,21 +198,21 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             if (exitUser != null) {
                 //throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
                 exitUser.setPassword(studentDto.getPassword());
-                exitUser.setDisplayName(studentDto.getName());
+              //  exitUser.setDisplayName(studentDto.getName());
                 exitUser.setEmail(studentDto.getEmail());
                 userService.updateUser(exitUser);
                 Integer stuId = iStudentService.findIdByStudentNo(studentDto.getStudentNo());
                 Student student = studentDto.buildStudent();
                 student.setId(stuId);
                 student.setAvatar("/photos/student/" + student.getStudentNo() + ".jpg");
-                student.setUserId(exitUser.getId());
+              //  student.setUserId(exitUser.getId());
                 iStudentService.updateSelective(student);
             } else {
                 userService.insertUser(user);
-                userService.insertUserRole(user.getId(), SecurityConstant.ROLE_STUDENT);
+               // userService.insertUserRole(user.getId(), SecurityConstant.ROLE_STUDENT);
                 Student student = studentDto.buildStudent();
                 student.setAvatar("/photos/student/" + student.getStudentNo() + ".jpg");
-                student.setUserId(user.getId());
+               // student.setUserId(user.getId());
                 iStudentService.insert(student);
             }
         }
@@ -206,21 +238,21 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             if (exitUser != null) {
                 //throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
                 exitUser.setPassword(teacherDto.getJsmm());
-                exitUser.setDisplayName(teacherDto.getName());
+              //  exitUser.setDisplayName(teacherDto.getName());
                 exitUser.setEmail(teacherDto.getEmail());
                 userService.updateUser(exitUser);
                 Teacher teacher = teacherDto.buildTeacher();
                 Integer teacherId = iTeacherService.findIdByEmployeeNo(teacherDto.getEmployeeNo());
                 teacher.setId(teacherId);
-                teacher.setUserId(exitUser.getId());
+               // teacher.setUserId(exitUser.getId());
                 teacher.setAvatar("/photos/teacher/" + teacher.getEmployeeNo() + ".jpg");
                 iTeacherService.updateSelective(teacher);
 
             } else {
                 userService.insertUser(user);
-                userService.insertUserRole(user.getId(), SecurityConstant.ROLE_TEACHER);
+              //  userService.insertUserRole(user.getId(), SecurityConstant.ROLE_TEACHER);
                 Teacher teacher = teacherDto.buildTeacher();
-                teacher.setUserId(user.getId());
+               // teacher.setUserId(user.getId());
                 teacher.setAvatar("/photos/teacher/" + teacher.getEmployeeNo() + ".jpg");
                 iTeacherService.insertSelective(teacher);
             }
@@ -243,22 +275,22 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         User user = UserVO.buildSimpleUser(teacher.getEmployeeNo(), teacher.getContactPhone(), teacher.getPassword(),
                 teacher.getName(), teacher.getEmail());
         if (userService.findExistUser(user) > 0) {
-            throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
+        //    throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
         }
         userService.insertUser(user);
-        userService.insertUserRole(user.getId(), 4);
-        teacher.setUserId(user.getId());
+        //userService.insertUserRole(user.getId(), 4);
+      //  teacher.setUserId(user.getId());
         return iTeacherService.insertSelective(teacher);
     }
 
     @Override
     public int updateTeacher(Teacher teacher) {
         Teacher t = iTeacherService.findTeacherById(teacher.getId());
-        User user = userService.findUserById(t.getUserId());
-        if (!user.getPassword().equals(SecurityUtil.encodeString(teacher.getPassword()))) {
-            user.setPassword(teacher.getPassword());
-            userService.updateUserWithOnlyUserCache(user);
-        }
+       // User user = userService.findUserById(t.getUserId());
+       // if (!user.getPassword().equals(SecurityUtil.encodeString(teacher.getPassword()))) {
+          //  user.setPassword(teacher.getPassword());
+        //    userService.updateUserWithOnlyUserCache(user);
+       // }
         return iTeacherService.updateSelective(teacher);
     }
 
@@ -301,11 +333,11 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         //TODO 检测学号是否唯一
         User user = UserVO.buildSimpleUser(student.getStudentNo(), student.getContactPhone(), student.getName(),
                 student.getEmail());
-        if (userService.findExistUser(user) > 0) {
-            throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
-        }
+//        if (userService.findExistUser(user) > 0) {
+//            throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
+//        }
         userService.insertUser(user);
-        student.setUserId(user.getId());
+//        student.setUserId(user.getId());
         return iStudentService.insertSelective(student);
     }
 
@@ -562,8 +594,8 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     @Override
     // TODO Auto-generated method stub
     public boolean teacherSendMsg(String message, String reciever, String sign) {
-        Integer userId = SecurityUtil.getCurrentUserId();
-        Integer teacherId = teacherMapper.selectTeacherIdByUserId(userId);
+//        Integer userId = SecurityUtil.getCurrentUserId();
+//        Integer teacherId = teacherMapper.selectTeacherIdByUserId(userId);
         String typeIdsStr[] = reciever.split(",");
         List<Integer> typeIds = new ArrayList<Integer>();
         for (String str : typeIdsStr) {
@@ -572,7 +604,7 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
                 typeIds.add(value);
             }
         }
-        Teacher teacher = teacherMapper.selectOneByUserId(SecurityUtil.getCurrentUserId());
+//        Teacher teacher = teacherMapper.selectOneByUserId(SecurityUtil.getCurrentUserId());
         /*List<Integer> studentIds = teacherStudentMapper.selectStudentByTeacherIdAndTypeIds(teacherId, typeIds);*/
         List<Integer> studentIds = typeIds;
         String phones = "";
@@ -593,9 +625,9 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
                 msg.setMsgSign(sign);
                 msg.setReciever(student.getName());
                 //msg.setTypeId(teacherType.getTypeId());
-                msg.setTeacherId(teacher.getId());
-                msg.setTeacherName(teacher.getName());
-                msg.setTeacherNo(teacher.getEmployeeNo());
+//                msg.setTeacherId(teacher.getId());
+//                msg.setTeacherName(teacher.getName());
+//                msg.setTeacherNo(teacher.getEmployeeNo());
                 msgMapper.insertSelective(msg);
             }
         }
@@ -618,9 +650,9 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     public int updateToResetPassword(Integer teacherId) {
         Teacher t = iTeacherService.findTeacherById(teacherId);
         t.setPassword("000000");
-        User user = userService.findUserById(t.getUserId());
-        user.setPassword("000000");
-        userService.updateUserWithOnlyUserCache(user);
+//        User user = userService.findUserById(t.getUserId());
+//        user.setPassword("000000");
+//        userService.updateUserWithOnlyUserCache(user);
         return iTeacherService.updateSelective(t);
     }
     
@@ -628,9 +660,9 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     public int updateStudentToResetPassword(Integer studentId) {
         Student t = iStudentService.findByStudentId(studentId);
         t.setPassword("000000");
-        User user = userService.findUserById(t.getUserId());
-        user.setPassword("000000");
-        userService.updateUserWithOnlyUserCache(user);
+//        User user = userService.findUserById(t.getUserId());
+//        user.setPassword("000000");
+//        userService.updateUserWithOnlyUserCache(user);
         return iStudentService.updateSelective(t);
     }
 }

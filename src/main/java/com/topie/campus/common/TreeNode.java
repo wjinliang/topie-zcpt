@@ -9,9 +9,9 @@ public class TreeNode implements Serializable {
 
     private static final long serialVersionUID = -5642499451755338385L;
 
-    private int id;
+    private Object id;
 
-    private int pId;
+    private Object pId;
 
     private String name;
 
@@ -47,27 +47,44 @@ public class TreeNode implements Serializable {
         this.url = url;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getpId() {
-        return pId;
-    }
-
-    public void setpId(int pId) {
-        this.pId = pId;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
+//
+//    public int getpId() {
+//        return pId;
+//    }
+//
+//    public void setpId(int pId) {
+//        this.pId = pId;
+//    }
+    
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Object getId() {
+		return id;
+	}
+
+	public void setId(Object id) {
+		this.id = id;
+	}
+
+	public Object getpId() {
+		return pId;
+	}
+
+	public void setpId(Object pId) {
+		this.pId = pId;
+	}
+
+	public void setName(String name) {
         this.name = name;
     }
 

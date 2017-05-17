@@ -1,5 +1,12 @@
 package com.topie.campus.security.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.topie.campus.basedao.service.impl.BaseService;
@@ -10,12 +17,6 @@ import com.topie.campus.security.model.Role;
 import com.topie.campus.security.security.OrangeSecurityMetadataSourceImpl;
 import com.topie.campus.security.security.OrangeSideUserCache;
 import com.topie.campus.security.service.RoleService;
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * 工程：os-app 创建人 : ChenGJ 创建时间： 2015/9/3 说明：
@@ -35,7 +36,7 @@ public class RoleServiceImpl extends BaseService<Role> implements RoleService {
         if (result > 0) {
             if (CollectionUtils.isNotEmpty(role.getFunctions())) {
                 for (Integer functionId : role.getFunctions()) {
-                    insertRoleFunction(role.getId(), functionId);
+                    insertRoleFunction(role.getCode(), functionId);
                 }
             }
         }
@@ -48,7 +49,7 @@ public class RoleServiceImpl extends BaseService<Role> implements RoleService {
         if (result > 0) {
             if (CollectionUtils.isNotEmpty(role.getFunctions())) {
                 for (Integer functionId : role.getFunctions()) {
-                    insertRoleFunction(role.getId(), functionId);
+                    insertRoleFunction(role.getCode(), functionId);
                 }
             }
         }
@@ -56,12 +57,12 @@ public class RoleServiceImpl extends BaseService<Role> implements RoleService {
     }
 
     @Override
-    public Role findRoleById(Integer id) {
+    public Role findRoleById(String id) {
         return getMapper().selectByPrimaryKey(id);
     }
 
     @Override
-    public int deleteRole(Integer id) {
+    public int deleteRole(String id) {
         int result = getMapper().deleteByPrimaryKey(id);
         if (result > 0) {
             roleMapper.deleteUserRoleRelateByRoleId(id);
@@ -72,7 +73,7 @@ public class RoleServiceImpl extends BaseService<Role> implements RoleService {
     }
 
     @Override
-    public int insertRoleFunction(Integer roleId, Integer functionId) {
+    public int insertRoleFunction(String roleId, Integer functionId) {
         int result = roleMapper.insertRoleFunction(roleId, functionId);
         if (result > 0) {
             refreshAuthAndResource(roleId);
@@ -80,10 +81,10 @@ public class RoleServiceImpl extends BaseService<Role> implements RoleService {
         return result;
     }
     @Override
-    public void refreshAuthAndResource(Integer roleId) {
-        List<Integer> userIds = roleMapper.findHasRoleUserIdsByRoleId(roleId);
+    public void refreshAuthAndResource(String roleId) {
+        List<String> userIds = roleMapper.findHasRoleUserIdsByRoleId(roleId);
         if (CollectionUtils.isNotEmpty(userIds)) {
-            for (Integer userId : userIds) {
+            for (String userId : userIds) {
                 orangeSideUserCache.removeUserFromCacheByUserId(userId);
             }
         }
@@ -114,17 +115,17 @@ public class RoleServiceImpl extends BaseService<Role> implements RoleService {
     }
 
     @Override
-    public int deleteFunctionByRoleId(Integer roleId) {
+    public int deleteFunctionByRoleId(String roleId) {
         return roleMapper.deleteFunctionByRoleId(roleId);
     }
 
     @Override
-    public List<Integer> findFunctionByRoleId(Integer roleId) {
+    public List<Integer> findFunctionByRoleId(String roleId) {
         return roleMapper.findFunctionByRoleId(roleId);
     }
 
     @Override
-    public List<Integer> findHasRoleUserIdsByRoleId(Integer roleId) {
+    public List<String> findHasRoleUserIdsByRoleId(String roleId) {
         return roleMapper.findHasRoleUserIdsByRoleId(roleId);
     }
 

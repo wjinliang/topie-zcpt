@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.topie.campus.security.dao.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.topie.campus.security.model.Role">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="CODE" property="code" jdbcType="VARCHAR"/>
+        <result column="NAME" property="roleName" jdbcType="VARCHAR"/>
+        <result column="HOMEPAGE" property="defaultMENUURL" jdbcType="VARCHAR"/>
+        <result column="enabled" property="state" jdbcType="INTEGER"/>
+        <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="DETAIL" property="detail" jdbcType="VARCHAR"/>
+        <result column="SEQ" property="seq" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="TreeNodeMap" type="com.topie.campus.common.TreeNode">
+        <id column="CODE" property="id" jdbcType="INTEGER"/>
+        <result column="parent_id" property="pId" jdbcType="INTEGER"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="HasRoleUser" type="com.topie.campus.core.dto.HasRoleUserDto">
+        <id column="USER_CODE" property="userId" jdbcType="INTEGER"/>
+        <result column="ROLE_CODE" property="roleId" jdbcType="INTEGER"/>
+        <result column="login_name" property="loginname" jdbcType="VARCHAR"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        CODE, NAME, HOMEPAGE, enabled, insert_time, update_time, DETAIL, SEQ
+    </sql>
+    <insert id="insertRoleFunction" parameterType="java.lang.Integer">
+        insert into t_user_role_menu (ROLE_CODE,MENU_CODE) values(#{roleId},#{functionId,jdbcType=INTEGER});
+    </insert>
+    <delete id="deleteFunctionByRoleId">
+        delete from t_user_role_menu where ROLE_CODE=#{roleId}
+    </delete>
+    <delete id="deleteUserRoleRelateByRoleId">
+        delete from t_user_account_role where ROLE_CODE=#{roleId}
+    </delete>
+    <select id="findRoleMatchUpFunctions" resultType="java.util.Map">
+        select
+        f.MENUURL as function,r.CODE as role
+        from  t_user_role r
+        join t_user_role_menu rf
+        on r.CODE=rf.ROLE_CODE
+        join t_user_menu f
+        on f.id=rf.MENU_CODE
+        order by f.SEQ
+    </select>
+    <select id="selectRoleTreeNodes" resultMap="TreeNodeMap">
+        select id,0 parent_id,NAME from t_user_role
+        <if test="roleName!=null and roleName!=''">
+            NAME like concat('%',concat(#{roleName},'%'))
+        </if>
+    </select>
+    <select id="findRoleList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_role
+        <where>
+            <if test="roleName != null and roleName != ''">
+                NAME like concat('%',concat(#{roleName}, '%'))
+            </if>
+        </where>
+        <if test="sort_ != null and sort_ != ''">
+            ${sort_}
+        </if>
+    </select>
+    <select id="findFunctionByRoleId" resultType="java.lang.Integer">
+        select id from t_user_role_menu where ROLE_CODE=#{roleId}
+    </select>
+    <select id="findHasRoleUserDtoList" resultMap="HasRoleUser">
+        select
+        u.CODE USER_CODE,u.loginname,u.NAME,ur.ROLE_CODE
+        from t_user_account u
+        left join t_user_account_role ur on u.CODE=ur.USER_CODE
+        <if test="roleId != null">
+            and ur.ROLE_CODE=#{roleId}
+        </if>
+        <where>
+            <if test="loginname != null and loginname != ''">
+                and u.loginname like concat('%',concat(#{loginname}, '%'))
+            </if>
+            <if test="name != null and name != ''">
+                and u.NAME like concat('%',concat(#{name}, '%'))
+            </if>
+        </where>
+    </select>
+    <select id="findHasRoleUserIdsByRoleId" resultType="java.lang.String">
+        select USER_CODE from t_user_account_role where ROLE_CODE=#{roleId}
+    </select>
+</mapper>

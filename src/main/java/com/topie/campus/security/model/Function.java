@@ -1,11 +1,16 @@
 package com.topie.campus.security.model;
 
-import com.topie.campus.common.Sortable;
-
-import javax.persistence.*;
 import java.util.Date;
 
-@Table(name = "sys_function")
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.topie.campus.common.Sortable;
+
+@Table(name = "t_user_menu")
 public class Function extends Sortable {
 
     private static final long serialVersionUID = -3601166032902209525L;
@@ -17,18 +22,19 @@ public class Function extends Sortable {
     /**
      * 父ID
      */
-    @Column(name = "parent_id")
+    @Column(name = "PID")
     private Integer parentId;
 
     /**
      * 功能名称
      */
-    @Column(name = "function_name")
+    @Column(name = "NAME")
     private String functionName;
 
     /**
      * 是否显示到菜单栏
      */
+    @Column(name="ISSHOW")
     private Boolean display;
 
     /**
@@ -40,17 +46,19 @@ public class Function extends Sortable {
     /**
      * icon
      */
+    @Column(name="ICON")
     private String icon;
 
     /**
      * 请求路径
      */
+    @Column(name="MENUURL")
     private String action;
 
     /**
      * 排序号
      */
-    @Column(name = "function_desc")
+    @Column(name = "SEQ")
     private Integer functionDesc;
 
     /**

@@ -1,16 +1,17 @@
 package com.topie.campus.security.security;
 
-import com.topie.campus.common.IBasicCache;
-import com.topie.campus.common.TreeNode;
-import com.topie.campus.security.SecurityConstant;
-import com.topie.campus.security.service.UserService;
-import com.topie.campus.tools.redis.RedisCache;
+import java.util.List;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 
-import java.util.List;
+import com.topie.campus.common.IBasicCache;
+import com.topie.campus.common.TreeNode;
+import com.topie.campus.security.SecurityConstant;
+import com.topie.campus.security.service.UserService;
+import com.topie.campus.tools.redis.RedisCache;
 
 /**
  * Created by cgj on 2016/4/13.
@@ -71,7 +72,7 @@ public class OrangeSideUserCache implements UserCache, InitializingBean {
         this.cache = cache;
     }
 
-    public void removeUserFromCacheByUserId(Integer userId) {
+    public void removeUserFromCacheByUserId(String userId) {
         String loginName = userService.findLoginNameByUserId(userId);
         if (loginName != null) {
             removeUserFromCache(loginName);

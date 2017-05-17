@@ -1,11 +1,13 @@
 package com.topie.campus.security.dao;
 
-import com.topie.campus.common.TreeNode;
-import com.topie.campus.security.model.Function;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
 import tk.mybatis.mapper.common.Mapper;
 
-import java.util.List;
+import com.topie.campus.common.TreeNode;
+import com.topie.campus.security.model.Function;
 
 public interface FunctionMapper extends Mapper<Function> {
 
@@ -15,5 +17,5 @@ public interface FunctionMapper extends Mapper<Function> {
 
     int deleteRoleFunctionByFunctionId(int id);
 
-    List<Integer> findRoleIdsByFunctionId(@Param("functionId") int id);
+    List<String> findRoleIdsByFunctionId(@Param("id") int id);
 }

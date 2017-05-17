@@ -1,18 +1,18 @@
 package com.topie.campus.security.service.impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.TreeNode;
 import com.topie.campus.security.dao.FunctionMapper;
-import com.topie.campus.security.dao.UserMapper;
 import com.topie.campus.security.model.Function;
 import com.topie.campus.security.service.FunctionService;
 import com.topie.campus.security.service.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 工程：os-app 创建人 : ChenGJ 创建时间： 2015/9/4 说明：
@@ -44,10 +44,10 @@ public class FunctionServiceImpl extends BaseService<Function> implements Functi
     @Override
     public int deleteFunctionById(int id) {
         int result = getMapper().deleteByPrimaryKey(id);
-        List<Integer> roleIds = functionMapper.findRoleIdsByFunctionId(id);
+        List<String> roleIds = functionMapper.findRoleIdsByFunctionId(id);
         if (roleIds.size() > 0) {
             functionMapper.deleteRoleFunctionByFunctionId(id);
-            for (Integer roleId : roleIds) {
+            for (String roleId : roleIds) {
                 roleService.refreshAuthAndResource(roleId);
             }
         }

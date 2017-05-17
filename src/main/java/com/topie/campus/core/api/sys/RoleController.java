@@ -1,5 +1,16 @@
 package com.topie.campus.core.api.sys;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.github.pagehelper.PageInfo;
 import com.topie.campus.common.Option;
 import com.topie.campus.common.TreeNode;
@@ -10,12 +21,6 @@ import com.topie.campus.core.dto.HasRoleUserDto;
 import com.topie.campus.security.model.Role;
 import com.topie.campus.security.service.RoleService;
 import com.topie.campus.security.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by cgj on 2016/4/9.
@@ -54,7 +59,7 @@ public class RoleController {
 
     @RequestMapping(value = "/load/{roleId}", method = RequestMethod.GET)
     @ResponseBody
-    public Result loadRole(@PathVariable(value = "roleId") Integer roleId) {
+    public Result loadRole(@PathVariable(value = "roleId") String roleId) {
         Role role = roleService.findRoleById(roleId);
         List functions = roleService.findFunctionByRoleId(roleId);
         if (functions != null) role.setFunctions(functions);
@@ -63,7 +68,7 @@ public class RoleController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Result delete(@RequestParam(value = "roleId") Integer roleId) {
+    public Result delete(@RequestParam(value = "roleId") String roleId) {
         roleService.deleteRole(roleId);
         return ResponseUtil.success();
     }
@@ -90,16 +95,16 @@ public class RoleController {
 
     @RequestMapping(value = "/selectUser", method = RequestMethod.GET)
     @ResponseBody
-    public Result selectUser(@RequestParam(value = "roleId") Integer roleId,
-            @RequestParam(value = "userId") Integer userId) {
+    public Result selectUser(@RequestParam(value = "roleId") String roleId,
+            @RequestParam(value = "userId") String userId) {
         userService.insertUserRole(userId, roleId);
         return ResponseUtil.success();
     }
 
     @RequestMapping(value = "/cancelUser", method = RequestMethod.GET)
     @ResponseBody
-    public Result cancelUser(@RequestParam(value = "roleId") Integer roleId,
-            @RequestParam(value = "userId") Integer userId) {
+    public Result cancelUser(@RequestParam(value = "roleId") String roleId,
+            @RequestParam(value = "userId") String userId) {
         userService.deleteUserRole(userId, roleId);
         return ResponseUtil.success();
     }
@@ -110,7 +115,7 @@ public class RoleController {
         List<Role> list = roleService.findRoleList(null);
         List<Option> options = new ArrayList<>();
         for (Role role : list) {
-            Option option = new Option(role.getRoleName(), role.getId());
+            Option option = new Option(role.getRoleName(), role.getCode());
             options.add(option);
         }
         return options;

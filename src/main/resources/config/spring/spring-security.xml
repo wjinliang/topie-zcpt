@@ -79,7 +79,8 @@
     </beans:bean>
 
     <beans:bean id="encoder"
-                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    	class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"/>
+<!--                 class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/> -->
 
     <!-- 加载用户相关 -->
     <beans:bean id="orangeUserService"

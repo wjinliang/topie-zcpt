@@ -1,13 +1,11 @@
 package com.topie.campus.security.service.impl;
 
-import com.topie.campus.security.SecurityConstant;
-import com.topie.campus.security.model.Role;
-import com.topie.campus.security.model.User;
-import com.topie.campus.security.security.OrangeSecurityUser;
-import com.topie.campus.security.service.RoleService;
-import com.topie.campus.security.service.SecurityService;
-import com.topie.campus.security.service.UserService;
-import com.topie.campus.tools.redis.RedisCache;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -16,7 +14,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import com.topie.campus.security.SecurityConstant;
+import com.topie.campus.security.model.Role;
+import com.topie.campus.security.model.User;
+import com.topie.campus.security.security.OrangeSecurityUser;
+import com.topie.campus.security.service.RoleService;
+import com.topie.campus.security.service.SecurityService;
+import com.topie.campus.security.service.UserService;
+import com.topie.campus.tools.redis.RedisCache;
 
 /**
  * 工程：os-app 创建人 : ChenGJ 创建时间： 2015/9/4 说明：
@@ -40,11 +45,11 @@ public class SecurityServiceImpl implements SecurityService {
             return null;
         }
         Collection<GrantedAuthority> userGrantedAuthorities = new ArrayList<GrantedAuthority>();
-        List<Integer> grantedAuthorities = userService.findUserRoleByUserId(user.getId());
+        List<String> grantedAuthorities = userService.findUserRoleByUserId(user.getCode());
         if (grantedAuthorities != null && grantedAuthorities.size() > 0) {
-            for (Integer grantedAuthority : grantedAuthorities) {
-                GrantedAuthority ga = new SimpleGrantedAuthority(String.valueOf(grantedAuthority));
-                userGrantedAuthorities.add(ga);
+            for (String grantedAuthority : grantedAuthorities) {
+                GrantedAuthority ga = new SimpleGrantedAuthority(grantedAuthority);
+                userGrantedAuthorities.add(ga); 
             }
         }
         OrangeSecurityUser orangeSecurityUser = new OrangeSecurityUser(user, userGrantedAuthorities);
@@ -62,7 +67,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public String getDefaultAction(int roleId) {
+    public String getDefaultAction(String roleId) {
         Role role = roleService.findRoleById(roleId);
         if (StringUtils.isNotBlank(role.getDefaultAction())) return role.getDefaultAction();
         return "";

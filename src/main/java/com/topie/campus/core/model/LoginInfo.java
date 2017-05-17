@@ -1,13 +1,14 @@
 package com.topie.campus.core.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.topie.campus.tools.excel.ExcelCell;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.topie.campus.tools.excel.ExcelCell;
 
 @Table(name = "t_login_info")
 public class LoginInfo {
@@ -20,7 +21,7 @@ public class LoginInfo {
      */
     @ExcelCell(index = 0)
     @Column(name = "login_user_id")
-    private Integer loginUserId;
+    private String loginUserId;
 
     /**
      * 登录用户登录名
@@ -74,7 +75,7 @@ public class LoginInfo {
      *
      * @return login_user_id - 登录用户id
      */
-    public Integer getLoginUserId() {
+    public String getLoginUserId() {
         return loginUserId;
     }
 
@@ -83,7 +84,7 @@ public class LoginInfo {
      *
      * @param loginUserId 登录用户id
      */
-    public void setLoginUserId(Integer loginUserId) {
+    public void setLoginUserId(String loginUserId) {
         this.loginUserId = loginUserId;
     }
 

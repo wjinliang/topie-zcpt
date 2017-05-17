@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.topie.campus.security.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.topie.campus.security.model.User" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="LOGINNAME" property="loginname" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ENABLED" property="enabled" jdbcType="BIT" />
+    <result column="LOCKED" property="locked" jdbcType="BIT" />
+    <result column="ACCOUNT_EXPIRED" property="accountExpired" jdbcType="BIT" />
+    <result column="PASSWORD_EXPIRED" property="passwordExpired" jdbcType="BIT" />
+    <result column="LASTLOGINTIME" property="lastlogintime" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="MOBILEPHONE" property="mobilephone" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="HEADPIC" property="headpic" jdbcType="VARCHAR" />
+    <result column="SEQ" property="seq" jdbcType="BIGINT" />
+    <result column="headphoto_id" property="headphotoId" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="USERTYPE" property="usertype" jdbcType="VARCHAR" />
+    <result column="LOGINCOUNT" property="logincount" jdbcType="INTEGER" />
+    <result column="REMOTEIPADDR" property="remoteipaddr" jdbcType="VARCHAR" />
+    <result column="SPECIALACTION" property="specialaction" jdbcType="VARCHAR" />
+    <result column="ugroup_id" property="ugroupId" jdbcType="VARCHAR" />
+    <result column="SYNPASSWORD" property="synpassword" jdbcType="VARCHAR" />
+    <result column="DTYPE" property="dtype" jdbcType="VARCHAR" />
+    <result column="merge_uuid" property="mergeUuid" jdbcType="VARCHAR" />
+    <result column="origin_id" property="originId" jdbcType="VARCHAR" />
+    <result column="school_age" property="schoolAge" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="speciality" property="speciality" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="bizphone_no" property="bizphoneNo" jdbcType="VARCHAR" />
+    <result column="fax_no" property="faxNo" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="duty" property="duty" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="system_id" property="systemId" jdbcType="VARCHAR" />
+    <result column="old_loginname" property="oldLoginname" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="UserVoMap" type="com.topie.campus.security.vo.UserVO" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="LOGINNAME" property="loginname" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ENABLED" property="enabled" jdbcType="BIT" />
+    <result column="LOCKED" property="locked" jdbcType="BIT" />
+    <result column="ACCOUNT_EXPIRED" property="accountExpired" jdbcType="BIT" />
+    <result column="PASSWORD_EXPIRED" property="passwordExpired" jdbcType="BIT" />
+    <result column="LASTLOGINTIME" property="lastlogintime" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="MOBILEPHONE" property="mobilephone" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="HEADPIC" property="headpic" jdbcType="VARCHAR" />
+    <result column="SEQ" property="seq" jdbcType="BIGINT" />
+    <result column="headphoto_id" property="headphotoId" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="USERTYPE" property="usertype" jdbcType="VARCHAR" />
+    <result column="LOGINCOUNT" property="logincount" jdbcType="INTEGER" />
+    <result column="REMOTEIPADDR" property="remoteipaddr" jdbcType="VARCHAR" />
+    <result column="SPECIALACTION" property="specialaction" jdbcType="VARCHAR" />
+    <result column="ugroup_id" property="ugroupId" jdbcType="VARCHAR" />
+    <result column="SYNPASSWORD" property="synpassword" jdbcType="VARCHAR" />
+    <result column="DTYPE" property="dtype" jdbcType="VARCHAR" />
+    <result column="merge_uuid" property="mergeUuid" jdbcType="VARCHAR" />
+    <result column="origin_id" property="originId" jdbcType="VARCHAR" />
+    <result column="school_age" property="schoolAge" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="speciality" property="speciality" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="bizphone_no" property="bizphoneNo" jdbcType="VARCHAR" />
+    <result column="fax_no" property="faxNo" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="duty" property="duty" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="system_id" property="systemId" jdbcType="VARCHAR" />
+    <result column="old_loginname" property="oldLoginname" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="BIT" />
+  </resultMap>
+  
+
+    <resultMap id="TreeNodeMap" type="com.topie.campus.common.TreeNode">
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="PID" property="pId" jdbcType="INTEGER"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="ICON" property="ICON" jdbcType="VARCHAR"/>
+        <result column="action" property="url" jdbcType="VARCHAR"/>
+    </resultMap>
+  <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbggenerated
+          This element is automatically generated by MyBatis Generator, do not modify.
+        -->
+        CODE, LOGINNAME, PASSWORD, NAME, ENABLED, LOCKED, ACCOUNT_EXPIRED,
+        PASSWORD_EXPIRED, LASTLOGINTIME, EMAIL, MOBILEPHONE, create_date,
+        MOBILE,HEADPIC,SEQ,headphoto_id,org_id,USERTYPE,LOGINCOUNT,REMOTEIPADDR,
+        SPECIALACTION,ugroup_id,SYNPASSWORD,DTYPE,merge_uuid,origin_id,school_age,
+        title,speciality,create_user,bizphone_no,fax_no,address,
+        duty,birthday,gender,user_type,system_id,old_loginname,is_delete
+    </sql>
+  <update id="updateAccountNonLocked">
+        update t_user_account set LOCKED = #{locked} where CODE=#{userId}
+    </update>
+    <delete id="deleteUserAllRoles">
+        delete from t_user_account_role where USER_CODE=#{userId}
+    </delete>
+    <delete id="deleteUserRole">
+        delete from t_user_account_role where USER_CODE=#{userId} and ROLE_CODE=#{roleId}
+    </delete>
+    <select id="findUserByLoginName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_account
+        where LOGINNAME = #{loginname,jdbcType=VARCHAR}
+    </select>
+    <insert id="insertUserRole" >
+        insert ignore into t_user_account_role (USER_CODE,ROLE_CODE) values(#{userId},#{roleId});
+    </insert>
+    <select id="findUserRoleByUserId" resultType="java.lang.String">
+        select
+        ROLE_CODE
+        from t_user_account_role
+        where USER_CODE = #{userId}
+    </select>
+    <select id="findUserList" parameterType="com.topie.campus.security.model.User"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_account
+        <where>
+            <if test="name != null and name != ''">
+                NAME like concat('%',concat(#{name}, '%'))
+            </if>
+            <if test="loginname != null and loginname != ''">
+                and LOGINNAME like concat('%',concat(#{loginname}, '%'))
+            </if>
+            <if test="email != null and email != ''">
+                and EMAIL like concat('%',concat(#{email}, '%'))
+            </if>
+            <if test="mobilephone != null and mobilephone != ''">
+                and MOBILEPHONE like concat('%',concat(#{mobilephone}, '%'))
+            </if>
+        </where>
+        <if test="sort_ != null and sort_ != ''">
+            ${sort_}
+        </if>
+    </select>
+    <select id="findExistUser" resultType="java.lang.Integer">
+        select count(1) from t_user_account
+        <where>
+            <if test="id != null and id != ''">
+                CODE != #{id}
+            </if>
+            <if test="loginname != null and loginname != ''">
+                and LOGINNAME = #{loginname}
+            </if>
+        </where>
+    </select>
+    
+    <select id="findUserIdByLoginName" resultType="java.lang.String">
+        select 
+        code
+        from t_user_account
+        <where>
+            <if test="loginname != null and loginname != ''">
+                and LOGINNAME = #{loginname}
+            </if>
+        </where>
+    </select>
+    
+    <select id="findUserFunctionByLoginName" resultMap="TreeNodeMap">
+        select distinct f.id,f.PID,f.NAME,f.ICON,f.MENUURL
+        from t_user_account u left join t_user_account_role ur
+        on u.CODE = ur.USER_CODE left join t_user_role_menu rf
+        on ur.ROLE_CODE=rf.ROLE_CODE left join t_user_menu f
+        on rf.MENU_CODE = f.id
+        where
+        u.LOGINNAME = #{loginname}
+        and f.ISSHOW=1
+    </select>
+    <select id="countByLoginName" resultType="java.lang.Integer">
+        select count(1) from t_user_account where LOGINNAME = #{loginname,jdbcType=VARCHAR}
+    </select>
+    <select id="findLoginNameByUserId" resultType="java.lang.String">
+        select LOGINNAME from t_user_account where id=#{userId}
+    </select>
+    <select id="findUserListByRoleId" resultMap="BaseResultMap">
+        select
+        u.CODE, u.LOGINNAME, u.PASSWORD, u.NAME, u.ENABLED, u.LOCKED, u.ACCOUNT_EXPIRED,
+        u.PASSWORD_EXPIRED, u.LASTLOGINTIME, u.EMAIL, u.MOBILEPHONE, u.create_date
+        from t_user_account u inner join t_user_account_role ur
+        on u.CODE = ur.USER_CODE and ur.ROLE_CODE=#{roleId}
+        <where>
+            <if test="user.name != null and user.name != ''">
+                u.NAME like concat('%',concat(#{user.name}, '%'))
+            </if>
+            <if test="user.loginname != null and user.loginname != ''">
+                and u.LOGINNAME like concat('%',concat(#{user.loginname}, '%'))
+            </if>
+            <if test="user.email != null and user.email != ''">
+                and u.EMAIL like concat('%',concat(#{user.email}, '%'))
+            </if>
+            <if test="user.mobilephone != null and user.mobilephone != ''">
+                and u.MOBILEPHONE like concat('%',concat(#{user.mobilephone}, '%'))
+            </if>
+        </where>
+        <if test="user.sort_ != null and user.sort_ != ''">
+            ${user.sort_}
+        </if>
+    </select>
+    <select id="findUserFunctionByLoginNameAndDisplayType" resultMap="TreeNodeMap">
+        select distinct f.id,f.PID,f.NAME,f.ICON,f.MENUURL
+        from t_user_account u left join t_user_account_role ur
+        on u.CODE = ur.USER_CODE left join t_user_role_menu rf
+        on ur.ROLE_CODE=rf.ROLE_CODE left join t_user_menu f
+        on rf.MENU_CODE = f.id
+        where
+        u.LOGINNAME = #{loginname} 
+        and f.ISSHOW=1
+<!--         and f.display_type=#{displayType} -->
+    </select>
+</mapper>

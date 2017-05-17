@@ -1,41 +1,40 @@
 package com.topie.campus.security.security;
 
+import java.util.Collection;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-
-import java.util.Collection;
-import java.util.Date;
 
 /**
  * 工程：os-app 创建人 : ChenGJ 创建时间： 2015/9/4 说明：
  */
 public class OrangeSecurityUser extends User {
-    private Integer id;
+    private String id;
     private String loginName;
     private String displayName;
     private String email;
     private String contactPhone;
-    private Date lastPasswordReset;
+    //private Date lastPasswordReset;
     public OrangeSecurityUser(com.topie.campus.security.model.User user,
                               Collection<GrantedAuthority> userGrantedAuthorities) {
-        super(user.getLoginName(), user.getPassword(), user.getEnabled(),
-                user.getAccountNonExpired(), user.getCredentialsNonExpired(),
-                user.getAccountNonLocked(), userGrantedAuthorities);
+        super(user.getLoginname(), user.getPassword(), user.getEnabled(),
+                user.getAccountExpired(), user.getPasswordExpired(),
+                user.getLocked(), userGrantedAuthorities);
         if (user != null) {
-            setId(user.getId());
-            setLoginName(user.getLoginName());
-            setDisplayName(user.getDisplayName());
+            setId(user.getCode());
+            setLoginName(user.getLoginname());
+            setDisplayName(user.getName());
             setEmail(user.getEmail());
-            setContactPhone(user.getContactPhone());
-            setLastPasswordReset(user.getLastPasswordReset());
+            setContactPhone(user.getBizphoneNo());
+            //setLastPasswordReset(user.getLastPasswordReset());
         }
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -71,11 +70,11 @@ public class OrangeSecurityUser extends User {
         this.contactPhone = contactPhone;
     }
 
-    public Date getLastPasswordReset() {
-        return lastPasswordReset;
-    }
-
-    public void setLastPasswordReset(Date lastPasswordReset) {
-        this.lastPasswordReset = lastPasswordReset;
-    }
+//    public Date getLastPasswordReset() {
+//        return lastPasswordReset;
+//    }
+//
+//    public void setLastPasswordReset(Date lastPasswordReset) {
+//        this.lastPasswordReset = lastPasswordReset;
+//    }
 }

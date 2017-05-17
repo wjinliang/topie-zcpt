@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.topie.campus.security.dao.FunctionMapper">
+    <resultMap id="BaseResultMap" type="com.topie.campus.security.model.Function">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="PID" property="parentId" jdbcType="INTEGER"/>
+        <result column="NAME" property="functionName" jdbcType="VARCHAR"/>
+        <result column="ISSHOW" property="display" jdbcType="BIT"/>
+<!--         <result column="display_type" property="displayType" jdbcType="INTEGER"/> -->
+        <result column="ICON" property="icon" jdbcType="VARCHAR"/>
+        <result column="MENUURL" property="action" jdbcType="VARCHAR"/>
+        <result column="SEQ" property="functionDesc" jdbcType="INTEGER"/>
+<!--         <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP"/> -->
+<!--         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/> -->
+    </resultMap>
+    <resultMap id="TreeNodeMap" type="com.topie.campus.common.TreeNode">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="PID" property="pId" jdbcType="INTEGER"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, PID, NAME, ISSHOW, ICON, MENUURL, SEQ
+    </sql>
+    <delete id="deleteRoleFunctionByFunctionId">
+        delete from t_user_role_menu where id=#{functionId}
+    </delete>
+    <select id="selectFunctionTreeNodes" resultMap="TreeNodeMap">
+        select id,PID,NAME from t_user_menu
+        <where>
+            <if test="functionName!=null and functionName!=''">
+                NAME like concat('%',concat(#{functionName},'%'))
+            </if>
+            <if test="display!=null">
+                ISSHOW = #{display}
+            </if>
+        </where>
+    </select>
+    <select id="findFunctionList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_menu
+        <where>
+            <if test="parentId!=null">
+                PID = #{parentId}
+            </if>
+            <if test="display!=null">
+                ISSHOW = #{display}
+            </if>
+            <if test="functionName!=null and functionName!=''">
+                NAME like concat('%',concat(#{functionName},'%'))
+            </if>
+        </where>
+        <if test="sort_ != null and sort_ != ''">
+            ${sort_}
+        </if>
+    </select>
+    <select id="findRoleIdsByFunctionId" resultType="java.lang.String">
+        select distinct ROLE_CODE from t_user_role_menu where id=#{id}
+    </select> 
+
+</mapper>

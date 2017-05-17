@@ -1,9 +1,6 @@
 package com.topie.campus.security;
 
-import com.topie.campus.security.model.User;
-import com.topie.campus.security.service.FunctionService;
-import com.topie.campus.security.service.RoleService;
-import com.topie.campus.security.service.UserService;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +10,10 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
-import java.util.List;
+import com.topie.campus.security.model.User;
+import com.topie.campus.security.service.FunctionService;
+import com.topie.campus.security.service.RoleService;
+import com.topie.campus.security.service.UserService;
 
 /**
  * 工程：os-app 创建人 : ChenGJ 创建时间： 2015/9/2 说明：
@@ -33,7 +33,7 @@ public class UserRoleFunctionTest extends AbstractTransactionalJUnit4SpringConte
     public void listUser() {
         List<User> users = userService.selectAll();
         for (User user : users) {
-            System.out.println("获取用户：执行结果===============" + user.getDisplayName());
+            System.out.println("获取用户：执行结果===============" + user.getName());
         }
     }
 

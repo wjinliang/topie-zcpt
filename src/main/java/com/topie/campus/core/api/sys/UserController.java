@@ -1,5 +1,20 @@
 package com.topie.campus.core.api.sys;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.github.pagehelper.PageInfo;
 import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
@@ -9,15 +24,6 @@ import com.topie.campus.security.exception.AuthBusinessException;
 import com.topie.campus.security.model.User;
 import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.utils.SecurityUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
 
 /**
  * Created by cgj on 2016/4/9.
@@ -33,7 +39,7 @@ public class UserController {
 
     @RequestMapping(value = "/pageList", method = RequestMethod.GET)
     @ResponseBody
-    public Result users(User user, @RequestParam(value = "roleId", required = false) Integer roleId,
+    public Result users(User user, @RequestParam(value = "roleId", required = false) String roleId,
             @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
         PageInfo<User> pageInfo;
@@ -72,7 +78,7 @@ public class UserController {
     
     @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
     @ResponseBody
-    public Result updatePassword(String oldPassword,String newPassword,Integer userId) {
+    public Result updatePassword(String oldPassword,String newPassword,String userId) {
     	if(userId==null)
     	{
     		userId = SecurityUtil.getCurrentUserId();
@@ -89,7 +95,7 @@ public class UserController {
 
     @RequestMapping(value = "/load/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public Result loadUser(@PathVariable(value = "userId") int userId) {
+    public Result loadUser(@PathVariable(value = "userId") String userId) {
         User user = userService.findUserById(userId);
         List roles = userService.findUserRoleByUserId(userId);
         if (roles != null) user.setRoles(roles);
@@ -98,7 +104,7 @@ public class UserController {
 
     @RequestMapping(value = "/lock/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public Result lock(@PathVariable(value = "userId") int userId) {
+    public Result lock(@PathVariable(value = "userId") String userId) {
         if (SecurityUtil.getCurrentUserId() == userId) {
             throw new AuthBusinessException(AuBzConstant.CANNOT_CHANGE_CURRENT_USER);
         }
@@ -112,7 +118,7 @@ public class UserController {
 
     @RequestMapping(value = "/unLock/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public Result unLock(@PathVariable(value = "userId") int userId) {
+    public Result unLock(@PathVariable(value = "userId") String userId) {
         if (SecurityUtil.getCurrentUserId() == userId) {
             throw new AuthBusinessException(AuBzConstant.CANNOT_CHANGE_CURRENT_USER);
         }
@@ -126,7 +132,7 @@ public class UserController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Result delUser(@RequestParam(value = "userId") int userId) {
+    public Result delUser(@RequestParam(value = "userId") String userId) {
         if (SecurityUtil.getCurrentUserId() == userId) {
             throw new AuthBusinessException(AuBzConstant.CANNOT_CHANGE_CURRENT_USER);
         }
@@ -136,7 +142,7 @@ public class UserController {
 
     @RequestMapping(value = "/roles/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public Result userRoles(@PathVariable(value = "userId") int userId) {
+    public Result userRoles(@PathVariable(value = "userId") String userId) {
         List roles = userService.findUserRoleByUserId(userId);
         return ResponseUtil.success(roles);
     }

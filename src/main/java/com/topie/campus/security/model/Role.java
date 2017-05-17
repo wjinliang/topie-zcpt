@@ -1,12 +1,16 @@
 package com.topie.campus.security.model;
 
-import com.topie.campus.common.Sortable;
-
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Table(name = "sys_role")
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.topie.campus.common.Sortable;
+
+@Table(name = "t_user_role")
 public class Role extends Sortable {
 
     private static final long serialVersionUID = -387429146553168074L;
@@ -15,24 +19,32 @@ public class Role extends Sortable {
      * id
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="CODE")
+    private String code;
+    
+    @Column(name="SEQ")
+    private int seq;
+    
+    @Column(name="DETAIL")
+    private String detail;
 
     /**
      * 角色名称
      */
-    @Column(name = "role_name")
+    @Column(name = "NAME")
     private String roleName;
 
     /**
      * 角色默认跳转function
      */
-    @Column(name = "default_action")
+    @Column(name = "HOMEPAGE")
     private String defaultAction;
 
     /**
      * 是否启用，0=不启用，1=启用
      */
+    @Column(name="enabled")
     private Integer state;
 
     /**
@@ -50,25 +62,32 @@ public class Role extends Sortable {
     @Transient
     private List<Integer> functions;
 
-    /**
-     * 获取id
-     *
-     * @return id - id
-     */
-    public Integer getId() {
-        return id;
-    }
 
-    /**
-     * 设置id
-     *
-     * @param id id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public String getCode() {
+		return code;
+	}
 
-    /**
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public int getSeq() {
+		return seq;
+	}
+
+	public void setSeq(int seq) {
+		this.seq = seq;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+
+	/**
      * 获取角色名称
      *
      * @return role_name - 角色名称

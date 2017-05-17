@@ -1,13 +1,14 @@
 package com.topie.campus.security.utils;
 
-import com.topie.campus.security.security.OrangeSecurityUser;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.topie.campus.security.security.OrangeSecurityUser;
 
 /**
  * Created by cgj on 2015/10/26.
@@ -21,9 +22,9 @@ public class SecurityUtil {
         return userName;
     }
 
-    public static Integer getCurrentUserId() {
+    public static String getCurrentUserId() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Integer userId = null;
+        String userId = null;
         if (principal instanceof OrangeSecurityUser) userId = ((OrangeSecurityUser) principal).getId();
         return userId;
     }

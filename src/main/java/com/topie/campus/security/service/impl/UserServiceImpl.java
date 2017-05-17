@@ -1,5 +1,12 @@
 package com.topie.campus.security.service.impl;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.topie.campus.basedao.service.impl.BaseService;
@@ -11,12 +18,6 @@ import com.topie.campus.security.security.OrangeSideUserCache;
 import com.topie.campus.security.service.RoleService;
 import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.utils.SecurityUtil;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 工程：os-app 创建人 : ChenGJ 创建时间： 2015/9/2 说明：
@@ -38,9 +39,9 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         user.setPassword(SecurityUtil.encodeString(user.getPassword()));
         int result = getMapper().insertSelective(user);
         if (CollectionUtils.isNotEmpty(user.getRoles())) {
-            deleteUserAllRoles(user.getId());
-            for (Integer roleId : user.getRoles()) {
-                insertUserRole(user.getId(), roleId);
+            deleteUserAllRoles(user.getCode());
+            for (String roleId : user.getRoles()) {
+                insertUserRole(user.getCode(), roleId);
             }
         }
         return result;
@@ -53,13 +54,13 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         }
         int result = getMapper().updateByPrimaryKeySelective(user);
         if (CollectionUtils.isNotEmpty(user.getRoles())) {
-            deleteUserAllRoles(user.getId());
-            for (Integer roleId : user.getRoles()) {
-                insertUserRole(user.getId(), roleId);
+            deleteUserAllRoles(user.getCode());
+            for (String roleId : user.getRoles()) {
+                insertUserRole(user.getCode(), roleId);
             }
         }
         if (result > 0) {
-            orangeSideUserCache.removeUserFromCacheByUserId(user.getId());
+            orangeSideUserCache.removeUserFromCacheByUserId(user.getCode());
             OrangeSecurityMetadataSourceImpl.refreshResourceMap();
         }
         return result;
@@ -78,7 +79,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
     @Override
-    public User findUserById(Integer id) {
+    public User findUserById(String id) {
         return getMapper().selectByPrimaryKey(id);
     }
 
@@ -88,7 +89,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
     @Override
-    public int deleteUser(Integer id) {
+    public int deleteUser(String id) {
         int result = getMapper().deleteByPrimaryKey(id);
         if (result > 0) {
             deleteUserAllRoles(id);
@@ -97,7 +98,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
     @Override
-    public int insertUserRole(Integer userId, Integer roleId) {
+    public int insertUserRole(String userId, String roleId) {
         int result = userMapper.insertUserRole(userId, roleId);
         if (result > 0) {
             orangeSideUserCache.removeUserFromCacheByUserId(userId);
@@ -107,7 +108,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
     @Override
-    public List<Integer> findUserRoleByUserId(int userId) {
+    public List<String> findUserRoleByUserId(String userId) {
         return userMapper.findUserRoleByUserId(userId);
     }
 
@@ -140,7 +141,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
     @Override
-    public int updateLockStatusByUserId(int userId, Boolean accountNonLocked) {
+    public int updateLockStatusByUserId(String userId, Boolean accountNonLocked) {
         int result = userMapper.updateAccountNonLocked(userId, accountNonLocked);
         if (result > 0) {
             orangeSideUserCache.removeUserFromCacheByUserId(userId);
@@ -149,12 +150,12 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
     @Override
-    public String findLoginNameByUserId(Integer userId) {
+    public String findLoginNameByUserId(String userId) {
         return userMapper.findLoginNameByUserId(userId);
     }
 
     @Override
-    public int deleteUserAllRoles(Integer userId) {
+    public int deleteUserAllRoles(String userId) {
         int result = userMapper.deleteUserAllRoles(userId);
         if (result > 0) {
             orangeSideUserCache.removeUserFromCacheByUserId(userId);
@@ -164,7 +165,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
     @Override
-    public int deleteUserRole(Integer userId, Integer roleId) {
+    public int deleteUserRole(String userId, String roleId) {
         int result = userMapper.deleteUserRole(userId, roleId);
         if (result > 0) {
             orangeSideUserCache.removeUserFromCacheByUserId(userId);
@@ -174,7 +175,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
     @Override
-    public PageInfo<User> findUserListByRoleId(int pageNum, int pageSize, User user, Integer roleId) {
+    public PageInfo<User> findUserListByRoleId(int pageNum, int pageSize, User user, String roleId) {
         PageHelper.startPage(pageNum, pageSize);
         List<User> list = userMapper.findUserListByRoleId(user, roleId);
         PageInfo<User> page = new PageInfo<User>(list);

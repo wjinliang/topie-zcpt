@@ -1,16 +1,18 @@
 package com.topie.campus.security.utils;
 
-import com.topie.campus.security.security.OrangeSecurityUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.topie.campus.security.security.OrangeSecurityUser;
 
 public class TokenUtils {
 
@@ -138,8 +140,8 @@ public class TokenUtils {
         OrangeSecurityUser user = (OrangeSecurityUser) userDetails;
         final String username = this.getUsernameFromToken(token);
         final Date created = this.getCreatedDateFromToken(token);
-        return (username.equals(user.getUsername()) && !(this.isTokenExpired(token)) && !(this
-                .isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset())));
+        return (username.equals(user.getUsername()) && !(this.isTokenExpired(token))); //&& !(this
+                //.isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset())));
     }
 
 }

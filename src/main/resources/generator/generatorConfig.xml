@@ -44,16 +44,17 @@
                         password="${jdbc_password}">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.topie.campus.core.model"
+        <javaModelGenerator targetPackage="com.topie.campus.security.core.model"
                             targetProject="${targetBasedir}/src/main/java"/>
 
-        <sqlMapGenerator targetPackage="mapper/core"
+        <sqlMapGenerator targetPackage="mapper/campus"
                          targetProject="${targetBasedir}/src/main/resources"/>
 
-        <javaClientGenerator targetPackage="com.topie.campus.core.dao"
+        <javaClientGenerator targetPackage="com.topie.campus.security.core.dao"
                              targetProject="${targetBasedir}/src/main/java" type="XMLMAPPER"/>
 
-        <table tableName="t_at_me" domainObjectName="AtMe">
+        <table tableName="t_user_account" domainObjectName="UserAccount">
         </table>
+         <!-- mybatis-generator:generate -->
     </context>
 </generatorConfiguration>
