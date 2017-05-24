@@ -99,8 +99,8 @@
         <id column="id" property="id" jdbcType="VARCHAR" />
         <result column="PID" property="pId" jdbcType="INTEGER"/>
         <result column="NAME" property="name" jdbcType="VARCHAR"/>
-        <result column="ICON" property="ICON" jdbcType="VARCHAR"/>
-        <result column="action" property="url" jdbcType="VARCHAR"/>
+        <result column="ICON" property="icon" jdbcType="VARCHAR"/>
+        <result column="MENUURL" property="url" jdbcType="VARCHAR"/>
     </resultMap>
   <sql id="Base_Column_List">
         <!--
@@ -187,7 +187,7 @@
     <select id="findUserFunctionByLoginName" resultMap="TreeNodeMap">
         select distinct f.id,f.PID,f.NAME,f.ICON,f.MENUURL
         from t_user_account u left join t_user_account_role ur
-        on u.CODE = ur.USER_CODE left join t_user_role_menu rf
+        on u.CODE = ur.USER_CODE left join t_role_menu rf
         on ur.ROLE_CODE=rf.ROLE_CODE left join t_user_menu f
         on rf.MENU_CODE = f.id
         where
@@ -227,7 +227,7 @@
     <select id="findUserFunctionByLoginNameAndDisplayType" resultMap="TreeNodeMap">
         select distinct f.id,f.PID,f.NAME,f.ICON,f.MENUURL
         from t_user_account u left join t_user_account_role ur
-        on u.CODE = ur.USER_CODE left join t_user_role_menu rf
+        on u.CODE = ur.USER_CODE left join t_role_menu rf
         on ur.ROLE_CODE=rf.ROLE_CODE left join t_user_menu f
         on rf.MENU_CODE = f.id
         where

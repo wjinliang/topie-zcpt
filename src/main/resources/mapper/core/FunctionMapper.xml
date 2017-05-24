@@ -26,7 +26,7 @@
         id, PID, NAME, ISSHOW, ICON, MENUURL, SEQ
     </sql>
     <delete id="deleteRoleFunctionByFunctionId">
-        delete from t_user_role_menu where id=#{functionId}
+        delete from t_role_menu where MENU_CODE=#{functionId}
     </delete>
     <select id="selectFunctionTreeNodes" resultMap="TreeNodeMap">
         select id,PID,NAME from t_user_menu
@@ -59,7 +59,7 @@
         </if>
     </select>
     <select id="findRoleIdsByFunctionId" resultType="java.lang.String">
-        select distinct ROLE_CODE from t_user_role_menu where id=#{id}
+        select distinct ROLE_CODE from t_role_menu where MENU_CODE=#{id}
     </select> 
 
 </mapper>

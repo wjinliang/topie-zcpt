@@ -85,13 +85,13 @@ public class SecurityServiceImpl implements SecurityService {
         if (roleFunctions != null && roleFunctions.size() > 0) {
             for (Map roleFunction : roleFunctions) {
                 String url = (String) roleFunction.get("function");
-                Integer role = (Integer) roleFunction.get("role");
+                String role = (String) roleFunction.get("role");
                 Collection<ConfigAttribute> configAttributes = new ArrayList<ConfigAttribute>();
                 if (!resourceMap.containsKey(url)) {
-                    configAttributes.add(new SecurityConfig(String.valueOf(role)));
+                    configAttributes.add(new SecurityConfig(role));
                     resourceMap.put(url, configAttributes);
                 } else {
-                    ConfigAttribute configAttribute = new SecurityConfig(String.valueOf(role));
+                    ConfigAttribute configAttribute = new SecurityConfig(role);
                     configAttributes = resourceMap.get(url);
                     configAttributes.add(configAttribute);
                     resourceMap.put(url, configAttributes);

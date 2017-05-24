@@ -30,10 +30,10 @@
         CODE, NAME, HOMEPAGE, enabled, insert_time, update_time, DETAIL, SEQ
     </sql>
     <insert id="insertRoleFunction" parameterType="java.lang.Integer">
-        insert into t_user_role_menu (ROLE_CODE,MENU_CODE) values(#{roleId},#{functionId,jdbcType=INTEGER});
+        insert into t_role_menu (ROLE_CODE,MENU_CODE) values(#{roleId},#{functionId,jdbcType=INTEGER});
     </insert>
     <delete id="deleteFunctionByRoleId">
-        delete from t_user_role_menu where ROLE_CODE=#{roleId}
+        delete from t_role_menu where ROLE_CODE=#{roleId}
     </delete>
     <delete id="deleteUserRoleRelateByRoleId">
         delete from t_user_account_role where ROLE_CODE=#{roleId}
@@ -42,7 +42,7 @@
         select
         f.MENUURL as function,r.CODE as role
         from  t_user_role r
-        join t_user_role_menu rf
+        join t_role_menu rf
         on r.CODE=rf.ROLE_CODE
         join t_user_menu f
         on f.id=rf.MENU_CODE
@@ -68,7 +68,7 @@
         </if>
     </select>
     <select id="findFunctionByRoleId" resultType="java.lang.Integer">
-        select id from t_user_role_menu where ROLE_CODE=#{roleId}
+        select id from t_role_menu where ROLE_CODE=#{roleId}
     </select>
     <select id="findHasRoleUserDtoList" resultMap="HasRoleUser">
         select
